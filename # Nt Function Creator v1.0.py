@@ -18,8 +18,9 @@ def urlCheck():
     #url = "http://undocumented.ntinternals.net/index.html?page=UserMode%2FUndocumented%20Functions%2FNT%20Objects%2FThread%2FNtDelayExecution.html"
     #url = "https://docs.microsoft.com/en-us/windows-hardware/drivers/ddi/ntifs/nf-ntifs-zwdeletefile"
     #url = "https://docs.microsoft.com/en-us/windows-hardware/drivers/ddi/ntifs/nf-ntifs-zwcreateevent"
-    url = "https://docs.microsoft.com/en-us/windows-hardware/drivers/ddi/ntifs/nf-ntifs-zwsetevent"
+    #url = "https://docs.microsoft.com/en-us/windows-hardware/drivers/ddi/ntifs/nf-ntifs-zwsetevent"
 
+    url = ""
     urlType = ""
 
     while True:
@@ -42,6 +43,7 @@ def urlCheck():
             print("[ ❌ ] Invalid URL")
             continue
 
+    print(urlType)
     return url, urlType
 
 def getMSDNSite(url):
@@ -307,19 +309,11 @@ def main():
 
     #printPtypes(inOrOut) # Print pTypes
     #printPnames(pnames) # Print pNames
-    inOrOut = cleanMSDN(inOrOut, functionName)
-    inOrOut = inOrOut.split()
+    if urlType == "msdn":
+        inOrOut = cleanMSDN(inOrOut, functionName)
+        inOrOut = inOrOut.split()
     #print(inOrOut)
     printFinishedFunction(inOrOut, pnames, functionName, urlType) # Print finished function
-
-
-
-
-
-
-
-    
-
 
 
 if __name__ == "__main__":
