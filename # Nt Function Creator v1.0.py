@@ -43,7 +43,7 @@ def urlCheck():
             print("[ ❌ ] Invalid URL")
             continue
 
-    print(urlType)
+    #print(urlType)
     return url, urlType
 
 def getMSDNSite(url):
@@ -280,11 +280,15 @@ def printFinishedFunction(ptypes, pnames, functionName, urlType):
     print("[ ⏹ ] Function Stop")
 
 def cleanMSDN(xpathOutput, functionName):
+    functionName2 = functionName.replace("Nt", 'Zw')
     xpathOutput = str(xpathOutput)
-    removalChars = [", optional", "in", "out", "NTAPI", "NTSTATUS", "NTSYSAPI", "[", "]", functionName, ")", "(", ";", ",", "'"]
+    removalChars = [", optional", "in", "out", "NTAPI", "NTSTATUS", "NTSYSAPI", "[", "]", functionName, ")", "(", ";", ",", "'", functionName2]
     for i in range(len(removalChars)):
         xpathOutput = xpathOutput.replace(removalChars[i], "")
 
+    #print(functionName2)
+    #print(functionName)
+    #print(xpathOutput)
     return xpathOutput
 
 def main():
