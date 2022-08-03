@@ -125,8 +125,9 @@ def ptypeRegex(xpathOutput, urlType, functionName):
 
     elif urlType == "msdn":
         inOrOut = []
-        xpathOutput = cleanMSDN(xpathOutput, functionName)
-        #print(xpathOutput)
+        xClean = 1
+        xpathOutput = cleanMSDN(xpathOutput, functionName, xClean)
+        #print("xpath:" + xpathOutput)
         
         typeField = re.findall("[A-Z_]{2,20}", xpathOutput)
         #print(typeField)
@@ -135,7 +136,7 @@ def ptypeRegex(xpathOutput, urlType, functionName):
             #print(typeField[i])
             #print(i)
 
-        #print(inOrOut)
+        #print("inorout: " + (str(inOrOut)))
 
         return inOrOut
 
@@ -207,15 +208,15 @@ def pnamesRegex(xpathOutput, inOrOut, urlType, functionName):
     elif urlType == "msdn":
         #print(xpathOutput)
         #print("\n")
-
-        #print(xpathOutput)
-        xpathOutput = cleanMSDN(xpathOutput, functionName)
-        inOrOut = cleanMSDN(str(inOrOut), functionName)
-        #print("\n")
         #print(inOrOut)
-        #print(xpathOutput)
 
-        #xpathOutput = str(xpathOutput)
+        #print(xpathOutput)
+        xClean = 1
+        xpathOutput = cleanMSDN(xpathOutput, functionName, xClean)
+        #print(xpathOutput) # <--- problem area
+        #print(inOrOut)
+        xClean = 0
+        inOrOut = cleanMSDN(str(inOrOut), functionName, xClean)
 
         inOrOut = inOrOut.split()
         #print(inOrOut)
@@ -241,6 +242,13 @@ def pnamesRegex(xpathOutput, inOrOut, urlType, functionName):
 
         for i in range(len(typeField)):
             typeField[i] = typeField[i].replace(" ", '')
+
+        #print(typeField) #<--- problem here
+        
+        for i in range(len(typeField)-1): # why does this work???????
+            #print(typeField[i])
+            if "Zw" in str(typeField[i]):
+                typeField.pop(i)
 
         #print(typeField)
 
@@ -279,15 +287,16 @@ def printFinishedFunction(ptypes, pnames, functionName, urlType):
 
     print("[ ⏹ ] Function Stop")
 
-def cleanMSDN(xpathOutput, functionName):
+def cleanMSDN(xpathOutput, functionName, xClean):
     functionName2 = functionName.replace("Nt", 'Zw')
     xpathOutput = str(xpathOutput)
-    removalChars = [", optional", "in", "out", "NTAPI", "NTSTATUS", "NTSYSAPI", "[", "]", functionName, ")", "(", ";", ",", "'", functionName2]
+    removalChars = [", optional", "in", "out", "NTAPI", "NTSYSAPI", "[", "]", functionName, ")", "(", ";", ",", "'", functionName2]
     for i in range(len(removalChars)):
         xpathOutput = xpathOutput.replace(removalChars[i], "")
 
-    #print(functionName2)
-    #print(functionName)
+    if xClean == 1:
+        xpathOutput = xpathOutput.replace("NTSTATUS", '', 1)
+    
     #print(xpathOutput)
     return xpathOutput
 
@@ -314,7 +323,8 @@ def main():
     #printPtypes(inOrOut) # Print pTypes
     #printPnames(pnames) # Print pNames
     if urlType == "msdn":
-        inOrOut = cleanMSDN(inOrOut, functionName)
+        xClean = 0
+        inOrOut = cleanMSDN(inOrOut, functionName, xClean)
         inOrOut = inOrOut.split()
     #print(inOrOut)
     printFinishedFunction(inOrOut, pnames, functionName, urlType) # Print finished function
