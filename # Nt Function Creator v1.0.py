@@ -1,7 +1,7 @@
 # Nt Function Creator v1.0
 # Author: Ibranum (Evan Read)
 # Uses: Python 3
-# Date: 07/29/2022 -> 08/01/2022
+# Date: 07/29/2022 -> 08/03/2022
 # Description: Creates a function to match a Microsoft-defined Nt function for the Sharem program using a user-fed URL
 
 from multiprocessing.connection import wait
@@ -10,6 +10,10 @@ from selenium import webdriver
 from selenium.webdriver.common.by import By
 import time
 import re
+
+# make option to grab options from internal sharem folder
+# make option to load in comma-separated url file
+# make option to load in comma-separated function names file
 
 def urlCheck():
     #url = "" # User-defined URL
