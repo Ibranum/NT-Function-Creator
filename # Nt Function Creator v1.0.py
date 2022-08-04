@@ -260,6 +260,7 @@ def searchUndocumented(wantedFunction):
     time.sleep(1)
     driver.switch_to.default_content()
 
+    # Submits search on search tab, enters it in the search bar
     searchXpath = "/html/body/form/table/tbody/tr/td[1]/input"
     driver.switch_to.frame("hleftframe")
     driver.switch_to.frame("toc")
@@ -268,17 +269,106 @@ def searchUndocumented(wantedFunction):
     searchingNT.send_keys(wantedFunction)
     searchingNT.submit()
 
+    # clicks first option in search bar
     newXpath = "/html/body/form/select/option"
     searchingNT = driver.find_element(By.XPATH, newXpath)
     searchingNT.click()
 
+    optionXpath = "/html/body/div[1]"
+    driver.switch_to.default_content()
+    driver.switch_to.frame("content")
+       
+    webTitle = driver.find_element(By.XPATH, optionXpath).text
+
+    while True:
+        
+        #print(webTitle)
+
+        if webTitle == wantedFunction:
+            break
+        else:
+            for i in range(1, 4):
+                driver.switch_to.default_content()
+                driver.switch_to.frame("hleftframe")
+                driver.switch_to.frame("toc")
+                xpathAlt = "/html/body/form/select/option[2]"
+                xpathAlt = xpathAlt.replace("2", str(i))
+                #print(xpathAlt)
+                searchingNT = driver.find_element(By.XPATH, xpathAlt)
+                searchingNT.click()
+                time.sleep(1)
+                driver.switch_to.default_content()
+                driver.switch_to.frame("content")
+
+       
+                webTitle = driver.find_element(By.XPATH, "/html/body/div[1]").text
+                #print(webTitle)
+                optionXpath = xpathAlt
+                if webTitle == wantedFunction:
+                    break
+
+    driver.switch_to.default_content()
+    driver.switch_to.frame("content")
+
+    targetXPath = "/html/body/pre"
+    html = driver.page_source
+    time.sleep(2)
+
+    xpathOutput = driver.find_element(By.XPATH, targetXPath).text
+    functionName = driver.find_element(By.XPATH, "/html/body/div[2]").text
+
     driver.close()
+
+    #print(xpathOutput)
+    #print(functionName)
+
+    return xpathOutput, functionName
+
+def starterOptions():
+    print("[ 🔥 ] Welcome to the Nt Function Creator") # Yes, I like using emojis in the my programs
+    print("Starting Options")
+    print("1. Enter a function name")
+    print("2. Enter a URL")
+    print("3. Exit")
+    print("[ ⌨️ ] Enter your choice: ", end="")
+    choice = input()
+    return choice
+
 
 
 def main():
-    
-    wantedFunction = "NtCreateNamedPipeFile"
-    UndocumentedURL = searchUndocumented(wantedFunction)
+    #while True:
+        #wantedFunction = "NtAddAtom"
+        choice = starterOptions()
+        print("reached")
+        print(choice)
+        if choice == 1:
+            print("[ ⏯ ] Enter the function name: ", end="")
+            wantedFunction = input()
+            UndocumentedURL = searchUndocumented(wantedFunction)
+        elif choice == 2:
+            pnames = ""
+            functionName = ""
+
+            url, urlType = urlCheck() # Get and check URL from user
+
+            if urlType == "ntinternals":
+                xpathOutput, functionName = getNTInternalSite(url) # Use Selenium to grab info from user URL
+                inOrOut = ptypeRegex(xpathOutput, urlType, functionName) # Get ptypes from the xpath output using Regex
+                pnames = pnamesRegex(xpathOutput, inOrOut, urlType, functionName) # Get pnames from the xpath output using Regex
+            elif urlType == "msdn":
+                xpathOutput, functionName = getMSDNSite(url) # Use Selenium to grab info from user URL
+
+                inOrOut = ptypeRegex(xpathOutput, urlType, functionName) # Get ptypes from the xpath output using Regex
+                pnames = pnamesRegex(xpathOutput, inOrOut, urlType, functionName) # Get pnames from the xpath output using Regex
+
+            if urlType == "msdn":
+                xClean = 0
+                inOrOut = cleanMSDN(inOrOut, functionName, xClean)
+                inOrOut = inOrOut.split()
+            #print(inOrOut)
+            printFinishedFunction(inOrOut, pnames, functionName, urlType) # Print finished function
+
 
 def Originalmain():
     print("[ 🔥 ] Welcome to the Nt Function Creator") # Yes, I like using emojis in the my programs
