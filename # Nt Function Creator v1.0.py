@@ -243,7 +243,44 @@ def cleanMSDN(xpathOutput, functionName, xClean):
 
     return xpathOutput
 
+def searchUndocumented(wantedFunction):
+    #options = webdriver.FirefoxOptions()
+    #options.headless = True
+    #driver = webdriver.Firefox(options=options)
+    driver = webdriver.Firefox()
+
+    url = "http://undocumented.ntinternals.net/"
+    driver.get(url)
+    #driver.refresh()
+    time.sleep(3)
+    driver.switch_to.frame("hleftframe")
+
+    driver.switch_to.frame(1) # switch to iframe using index instead of name
+    driver.find_element(By.XPATH, "/html/body/table/tbody/tr[2]/td[3]/a/font").click()
+    time.sleep(1)
+    driver.switch_to.default_content()
+
+    searchXpath = "/html/body/form/table/tbody/tr/td[1]/input"
+    driver.switch_to.frame("hleftframe")
+    driver.switch_to.frame("toc")
+    searchingNT = driver.find_element(By.XPATH, searchXpath)
+    searchingNT.click()
+    searchingNT.send_keys(wantedFunction)
+    searchingNT.submit()
+
+    newXpath = "/html/body/form/select/option"
+    searchingNT = driver.find_element(By.XPATH, newXpath)
+    searchingNT.click()
+
+    driver.close()
+
+
 def main():
+    
+    wantedFunction = "NtCreateNamedPipeFile"
+    UndocumentedURL = searchUndocumented(wantedFunction)
+
+def Originalmain():
     print("[ 🔥 ] Welcome to the Nt Function Creator") # Yes, I like using emojis in the my programs
     inOrOut = ""
     pnames = ""
@@ -267,7 +304,6 @@ def main():
         inOrOut = inOrOut.split()
     #print(inOrOut)
     printFinishedFunction(inOrOut, pnames, functionName, urlType) # Print finished function
-
 
 if __name__ == "__main__":
     main()
