@@ -337,12 +337,13 @@ def starterOptions():
 
 
 def main():
-    #while True:
+    while True:
         #wantedFunction = "NtAddAtom"
         choice = starterOptions()
         print("reached")
         print(choice)
-        if choice == 1:
+        if choice == "1" or choice == 1:
+            print("reached2")
             print("[ ⏯ ] Enter the function name: ", end="")
             wantedFunction = input()
             UndocumentedURL = searchUndocumented(wantedFunction)
