@@ -229,7 +229,7 @@ def printFinishedFunction(ptypes, pnames, functionName, urlType):
 
     print("    return logged_calls" + "\n")
 
-    print("[ ⏹ ] Function Stop")
+    print("[ ⏹ ] Function Stop\n")
 
 def cleanMSDN(xpathOutput, functionName, xClean):
     functionName2 = functionName.replace("Nt", 'Zw')
@@ -348,10 +348,10 @@ def main():
     while loop == 1:
         #wantedFunction = "NtAddAtom"
         choice = starterOptions()
-        print("reached")
-        print(choice)
+        #print("reached")
+        #print(choice)
         if choice == "1" or choice == 1:
-            print("reached2")
+            #print("reached2")
             print("[ ⏯ ] Enter the function name: ", end="")
             wantedFunction = input()
             xpathOutput, functionName = searchUndocumented(wantedFunction)
@@ -359,8 +359,7 @@ def main():
             pnames = pnamesRegex(xpathOutput, inOrOut, "ntinternals", functionName)
             printFinishedFunction(inOrOut, pnames, functionName, "ntinternals")
 
-            break
-        elif choice == 2:
+        elif choice == 2 or choice == "2":
             pnames = ""
             functionName = ""
 
@@ -382,7 +381,11 @@ def main():
                 inOrOut = inOrOut.split()
             #print(inOrOut)
             printFinishedFunction(inOrOut, pnames, functionName, urlType) # Print finished function
-
+        
+        elif choice == 3 or choice == "3":
+            loop = 0
+            print("[ ⚠ ] Exiting")
+            break
 
 def Originalmain():
     print("[ 🔥 ] Welcome to the Nt Function Creator") # Yes, I like using emojis in the my programs
