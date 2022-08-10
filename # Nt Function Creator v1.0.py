@@ -294,7 +294,7 @@ def searchUndocumented(wantedFunction):
         if webTitle == wantedFunction:
             break
         else:
-            for i in range(1, 4):
+            for i in range(1, 6):
                 driver.switch_to.default_content()
                 driver.switch_to.frame("hleftframe")
                 driver.switch_to.frame("toc")
