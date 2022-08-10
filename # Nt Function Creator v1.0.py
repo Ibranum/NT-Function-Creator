@@ -107,10 +107,12 @@ def getNTInternalSite(url):
 def ptypeRegex(xpathOutput, urlType, functionName):
     if urlType == "ntinternals":
         inOrOut = []
+        print("[ 🧵 ] ptype regex 1: " + str(xpathOutput))
         typeField = re.findall("(?:OUT) \w+|(?:IN )\w+", xpathOutput)
         for i in range(len(typeField)):
             inOrOut.append(typeField[i].split(" "))
 
+        print("[ 📫 ] ptype regex 2: " + str(inOrOut))
         return inOrOut
 
     elif urlType == "msdn":
@@ -149,17 +151,21 @@ def printPtypes(inOrOut, urlType):
 
 def pnamesRegex(xpathOutput, inOrOut, urlType, functionName):
     if urlType == "ntinternals":
-
+        print("[ 🫡 ] pnamesregex 1 " + str(xpathOutput))
         for i in range(len(inOrOut)):
             if inOrOut[i][1] in xpathOutput:
+                print("[ 🤪 ] pnamesregex inoroutloop " + str(inOrOut[i][1]))
                 xpathOutput = xpathOutput.replace(inOrOut[i][1], "")
 
         xpathOutput = str(xpathOutput)
-        removalChars = [" OPTIONAL", "IN", "OUT", "NTAPI", "NTSTATUS", "NTSYSAPI"]
+        print("[ 🤨 ] pnamesregex 2 " + xpathOutput)
+        removalChars = [" OPTIONAL", "IN", "OUT", "NTAPI", "NTSYSAPI"]
         for i in range(len(removalChars)):
             xpathOutput = xpathOutput.replace(removalChars[i], "")
         xpathOutput = xpathOutput.replace(")", '    ')
         xpathOutput = xpathOutput.replace(",", '    ')
+        print("[ ❌ ] pnamesregex 3 " + xpathOutput)
+        xpathOutput = xpathOutput.replace("NTSTATUS", '', 1) # remove first occurence of ntstatus
 
         # This is where it used to iterate through to make sure no pTypes were present
 
@@ -340,7 +346,6 @@ def starterOptions():
     print("[ ⌨️ ] Enter your choice: ", end="")
     choice = input()
     return choice
-
 
 
 def main():
