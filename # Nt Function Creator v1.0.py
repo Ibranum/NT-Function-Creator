@@ -277,8 +277,15 @@ def searchUndocumented(wantedFunction):
     optionXpath = "/html/body/div[1]"
     driver.switch_to.default_content()
     driver.switch_to.frame("content")
-       
-    webTitle = driver.find_element(By.XPATH, optionXpath).text
+
+    time.sleep(2)
+    
+    try:
+        webTitle = driver.find_element(By.XPATH, optionXpath).text
+    except: 
+        print("[ ⚠ ] Trying alternate route for " + wantedFunction)
+        optionXpath = "/html/body/div[2]"
+        webTitle = driver.find_element(By.XPATH, optionXpath).text
 
     while True:
         
@@ -319,8 +326,8 @@ def searchUndocumented(wantedFunction):
 
     driver.close()
 
-    #print(xpathOutput)
-    #print(functionName)
+    print(xpathOutput)
+    print(functionName)
 
     return xpathOutput, functionName
 
@@ -337,7 +344,8 @@ def starterOptions():
 
 
 def main():
-    while True:
+    loop = 1
+    while loop == 1:
         #wantedFunction = "NtAddAtom"
         choice = starterOptions()
         print("reached")
@@ -346,7 +354,12 @@ def main():
             print("reached2")
             print("[ ⏯ ] Enter the function name: ", end="")
             wantedFunction = input()
-            UndocumentedURL = searchUndocumented(wantedFunction)
+            xpathOutput, functionName = searchUndocumented(wantedFunction)
+            inOrOut = ptypeRegex(xpathOutput, "ntinternals", functionName) # Get ptypes from the xpath output using Regex
+            pnames = pnamesRegex(xpathOutput, inOrOut, "ntinternals", functionName)
+            printFinishedFunction(inOrOut, pnames, functionName, "ntinternals")
+
+            break
         elif choice == 2:
             pnames = ""
             functionName = ""
