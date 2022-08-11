@@ -372,19 +372,19 @@ def localPTypeParse(functionInfo):
      pnames = []
 
      functionInfo = re.findall("(\w+)", functionInfo)
-     print(functionInfo)
+     #print(functionInfo)
 
      numberOfTypes = int(functionInfo[1])
      #print(numberOfTypes)
 
      for i in range(2, 2+numberOfTypes):
-         print(functionInfo[i])
+         #print(functionInfo[i])
          ptypes.append(functionInfo[i])
 
      rangeOfPNamesStart = 2+numberOfTypes
      rangeOfPNamesEnd = rangeOfPNamesStart + numberOfTypes
      for i in range(rangeOfPNamesStart, rangeOfPNamesEnd):
-            print(functionInfo[i])
+            #print(functionInfo[i])
             pnames.append(functionInfo[i])
 
      return ptypes, pnames
@@ -441,13 +441,10 @@ def main():
         
         elif choice == 3 or choice == "3":
             ptypes, pnames, functionName = readSyscallLocalFile()
-            print(ptypes)
-            print(pnames)
-            print(functionName)
+            #print(ptypes)
+            #print(pnames)
+            #print(functionName)
             printFinishedFunction(ptypes, pnames, functionName, "msdn") # Print finished function
-            
-            break
-
 
         elif choice == 4 or choice == "4":
             loop = 0
