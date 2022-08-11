@@ -108,6 +108,10 @@ def ptypeRegex(xpathOutput, urlType, functionName):
     if urlType == "ntinternals":
         inOrOut = []
         print("[ 🧵 ] ptype regex 1: " + str(xpathOutput))
+        if "IN OUT" in xpathOutput:
+            print("[ ❌❌❌ ] IN OUT found")
+            xpathOutput = xpathOutput.replace("IN OUT", "IN")
+
         typeField = re.findall("(?:OUT) \w+|(?:IN )\w+", xpathOutput)
         for i in range(len(typeField)):
             inOrOut.append(typeField[i].split(" "))
@@ -156,6 +160,10 @@ def pnamesRegex(xpathOutput, inOrOut, urlType, functionName):
             if inOrOut[i][1] in xpathOutput:
                 print("[ 🤪 ] pnamesregex inoroutloop " + str(inOrOut[i][1]))
                 xpathOutput = xpathOutput.replace(inOrOut[i][1], "")
+        if "OUT P" or "IN P" in xpathOutput:
+            #print("[ ❌❌❌ ] OUT P or IN P found")
+            xpathOutput = xpathOutput.replace("OUT P", "OUT")
+            xpathOutput = xpathOutput.replace("IN P", "IN")
 
         xpathOutput = str(xpathOutput)
         print("[ 🤨 ] pnamesregex 2 " + xpathOutput)
@@ -166,7 +174,7 @@ def pnamesRegex(xpathOutput, inOrOut, urlType, functionName):
         xpathOutput = xpathOutput.replace(",", '    ')
         print("[ ❌ ] pnamesregex 3 " + xpathOutput)
         xpathOutput = xpathOutput.replace("NTSTATUS", '', 1) # remove first occurence of ntstatus
-
+        print("[ 📘 ] pnamesregex 4 " + xpathOutput)
         # This is where it used to iterate through to make sure no pTypes were present
 
         listNames = []
