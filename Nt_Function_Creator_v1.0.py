@@ -345,16 +345,60 @@ def searchUndocumented(wantedFunction):
 
     return xpathOutput, functionName
 
+def readSyscallLocalFile():
+    print("[ 🟩 ] Enter the function name: ")
+    functionName = input()
+    print("\n")
+    
+    with open('syscall_signatures.py', 'r') as f:
+        syscall = f.read()
+        syscall = re.split('(\]\)\, )', syscall)
+        # syscall = syscall.split(']), ')
+        # print(syscall)
+        #functionName = "\'" + functionName + "\'" + "\:"
+        # print(functionName)
+        for i in range(len(syscall)):
+            if re.search('(\'' + functionName + '\'\: )', syscall[i]):
+                if 'syscallRS' not in syscall[i]:
+                    #print(syscall[i])
+                    functionInfo = syscall[i]
+
+        ptypes, pnames = localPTypeParse(functionInfo)
+        
+        return ptypes, pnames, functionName
+
+def localPTypeParse(functionInfo):
+     ptypes = []
+     pnames = []
+
+     functionInfo = re.findall("(\w+)", functionInfo)
+     print(functionInfo)
+
+     numberOfTypes = int(functionInfo[1])
+     #print(numberOfTypes)
+
+     for i in range(2, 2+numberOfTypes):
+         print(functionInfo[i])
+         ptypes.append(functionInfo[i])
+
+     rangeOfPNamesStart = 2+numberOfTypes
+     rangeOfPNamesEnd = rangeOfPNamesStart + numberOfTypes
+     for i in range(rangeOfPNamesStart, rangeOfPNamesEnd):
+            print(functionInfo[i])
+            pnames.append(functionInfo[i])
+
+     return ptypes, pnames
+
 def starterOptions():
     print("[ 🔥 ] Welcome to the Nt Function Creator") # Yes, I like using emojis in the my programs
     print("Starting Options")
     print("1. Enter a function name")
     print("2. Enter a URL")
-    print("3. Exit")
+    print("3. Search in local file")
+    print("4. Exit")
     print("[ ⌨️ ] Enter your choice: ", end="")
     choice = input()
     return choice
-
 
 def main():
     loop = 1
@@ -396,6 +440,16 @@ def main():
             printFinishedFunction(inOrOut, pnames, functionName, urlType) # Print finished function
         
         elif choice == 3 or choice == "3":
+            ptypes, pnames, functionName = readSyscallLocalFile()
+            print(ptypes)
+            print(pnames)
+            print(functionName)
+            printFinishedFunction(ptypes, pnames, functionName, "msdn") # Print finished function
+            
+            break
+
+
+        elif choice == 4 or choice == "4":
             loop = 0
             print("[ ⚠ ] Exiting")
             break
