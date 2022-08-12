@@ -440,11 +440,16 @@ def main():
             printFinishedFunction(inOrOut, pnames, functionName, urlType) # Print finished function
         
         elif choice == 3 or choice == "3":
-            ptypes, pnames, functionName = readSyscallLocalFile()
+            try:
+                ptypes, pnames, functionName = readSyscallLocalFile()
+                printFinishedFunction(ptypes, pnames, functionName, "msdn") # Print finished function
+            except:
+                print("[ ⚠️ ] Error: Incorrect function name (case sensitive)\n")
+                
             #print(ptypes)
             #print(pnames)
             #print(functionName)
-            printFinishedFunction(ptypes, pnames, functionName, "msdn") # Print finished function
+            #printFinishedFunction(ptypes, pnames, functionName, "msdn") # Print finished function
 
         elif choice == 4 or choice == "4":
             loop = 0
