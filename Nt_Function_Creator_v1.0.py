@@ -234,7 +234,7 @@ def printFinishedFunction(ptypes, pnames, functionName, urlType):
 
     print("    pVals[] = getLookupVal(pVals[], ReverseLookups.NTSTATUS)\n")
 
-    print("    pTypes, pVals = findStringsParms(uc, pTypes, pVals, skip=[]\n")
+    print("    pTypes, pVals = findStringsParms(uc, pTypes, pVals, skip=[])\n")
 
     print("    retVal = 0")
     print("    retValStr = getLookUpVal(retVal, ReverseLookUps.NTSTATUS)")
