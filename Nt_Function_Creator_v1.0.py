@@ -396,7 +396,7 @@ def starterOptions():
     print("2. Enter a URL")
     print("3. Search in local file")
     print("4. Exit")
-    print("[ ⌨️ ] Enter your choice: ", end="")
+    print("[ 🌐 ] Enter your choice: ", end="")
     choice = input()
     return choice
 
