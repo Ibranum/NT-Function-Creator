@@ -237,7 +237,7 @@ def printFinishedFunction(ptypes, pnames, functionName, urlType):
     print("    pTypes, pVals = findStringsParms(uc, pTypes, pVals, skip=[]\n")
 
     print("    retVal = 0")
-    print("    retValStr = getLookUpVal(retVal, ReverseLookUps.NTSTATUS")
+    print("    retValStr = getLookUpVal(retVal, ReverseLookUps.NTSTATUS)")
     print("    uc.reg_write(UC_X86_REG_EAX, retVal)")
     print("    logged_calls = ['" + functionName + "', hex(callAddr), retValStr, 'NTSTATUS', pVals, pTypes, pNames, False]\n")
 
