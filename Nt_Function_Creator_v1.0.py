@@ -232,7 +232,7 @@ def printFinishedFunction(ptypes, pnames, functionName, urlType):
     print("")
     print("    pVals = self.makeArgVals(uc, em, esp, len(pTypes))\n")
 
-    print("    pVals[] = getLookupVal(pVals[], ReverseLookups.NTSTATUS)\n")
+    print("    #pVals[] = getLookupVal(pVals[], ReverseLookups.NTSTATUS)\n")
 
     print("    pTypes, pVals = findStringsParms(uc, pTypes, pVals, skip=[])\n")
 
